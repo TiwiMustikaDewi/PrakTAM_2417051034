@@ -11,13 +11,14 @@ This project is developed as a progressive semester assignment and will continue
 - Image based expense representation
 - Clean separation between Model and UI layers
 
+
 ## 🛠 Tech Stack
 - Kotlin
 - Jetpack Compose
 - Android Studio
 
 
-### Architecture Overview
+## Architecture Overview
 - **Model Layer** → Handles data structure and dummy data source  
 - **UI Layer** → Handles composable screens and layout  
 - **Theme Layer** → Handles color, typography, and styling  
