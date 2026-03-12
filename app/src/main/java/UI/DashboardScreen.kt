@@ -1,10 +1,9 @@
 package com.example.praktam_2417051034.ui
-
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +17,10 @@ import androidx.compose.ui.unit.sp
 import com.example.praktam_2417051034.R
 import com.example.praktam_2417051034.model.Expense
 import com.example.praktam_2417051034.model.ExpenseData
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun DashboardScreen() {
@@ -36,17 +39,66 @@ fun DashboardScreen() {
         modifier=Modifier
             .fillMaxSize()
             .background(Color(0xFFFFFEEC))
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         Text(
-            text="ExpenseLite",
-            fontSize=28.sp,
-            fontWeight=FontWeight.Bold
-        )
-        Text(
-            text="Needs vs Wants Tracker",
+            text="Hello",
             color=Color.Gray
         )
+        Text(
+            text="Tiwi Mustika Dewi",
+            fontSize= 20.sp,
+            fontWeight=FontWeight.Bold
+        )
+        Spacer(modifier=Modifier.height(10.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF6C8CF5)
+            )
+        ) {
+
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+
+                Text(
+                    text = "Current Balance",
+                    color = Color.White
+                )
+
+                Text(
+                    text = "Rp 987123",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+        }
+        Spacer(modifier=Modifier.height(20.dp))
+
+        Text(
+            text = "Services",
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            ServiceItem(R.drawable.notes, "Notes")
+            ServiceItem(R.drawable.tracker, "Tracker")
+            ServiceItem(R.drawable.cashflow, "Cashflow")
+            ServiceItem(R.drawable.paylater, "Paylater")
+
+        }
         Spacer(modifier=Modifier.height(20.dp))
 
         Card(
@@ -71,15 +123,25 @@ fun DashboardScreen() {
         }
         Spacer(modifier=Modifier.height(20.dp))
 
-        LazyColumn {
-            items(expenseList) { expense ->
-                ExpenseItem(expense)
-            }
+        Text(
+            text = "Recent Transaction",
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        expenseList.forEach { expense ->
+            ExpenseItem(expense)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
         }
     }
-}
+
+
 @Composable
 fun ExpenseItem(expense: Expense) {
+    var showDialog by remember { mutableStateOf(false) }
 
     val backgroundColor=
         if (expense.category == "Needs")
@@ -92,7 +154,9 @@ fun ExpenseItem(expense: Expense) {
             .padding(vertical = 6.dp),
         colors= CardDefaults.cardColors(containerColor = backgroundColor),
         shape= MaterialTheme.shapes.medium
-    ) {
+    )
+
+    {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -107,9 +171,22 @@ fun ExpenseItem(expense: Expense) {
 
             Spacer(modifier=Modifier.width(16.dp))
 
-            Column(modifier=Modifier.weight(1f)) {
-                Text(expense.title, fontWeight=FontWeight.Bold)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(expense.title, fontWeight = FontWeight.Bold)
                 Text(expense.category)
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Button(
+                    onClick = { showDialog = true },
+                    modifier = Modifier.height(30.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text(
+                        text = "See Details",
+                        fontSize = 12.sp
+                    )
+                }
             }
 
             Text(
@@ -117,5 +194,51 @@ fun ExpenseItem(expense: Expense) {
                 fontWeight=FontWeight.Bold
             )
         }
+
+    }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+
+            confirmButton = {
+                TextButton(
+                    onClick = { showDialog = false }
+                ) {
+                    Text("Close")
+                }
+            },
+
+            title = {
+                Text("Expense Details")
+            },
+
+            text = {
+                Column {
+                    Text("Title: ${expense.title}")
+                    Text("Category: ${expense.category}")
+                    Text("Amount: Rp ${expense.amount}")
+                }
+            }
+        )
     }
 }
+@Composable
+fun ServiceItem(icon: Int, label: String) {
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Image(
+            painter = painterResource(icon),
+            contentDescription = label,
+            modifier = Modifier.size(40.dp)
+        )
+
+        Text(
+            text = label,
+            fontSize = 12.sp
+        )
+    }
+}
+
