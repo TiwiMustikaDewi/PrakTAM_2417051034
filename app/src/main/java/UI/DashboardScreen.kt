@@ -22,8 +22,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.clickable
+
+
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    favoriteList: List<Expense>,
+    onToggleFavorite: (Expense) -> Unit,
+    onNavigateToFavorite: () -> Unit
+) {
 
     val expenseList = ExpenseData.expenseList
 
@@ -123,6 +136,21 @@ fun DashboardScreen() {
         }
         Spacer(modifier=Modifier.height(20.dp))
 
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Text(
+                text = "My Favorite",
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = ">",
+                color = Color(0xFF6C8CF5),
+                modifier = Modifier.clickable{onNavigateToFavorite()
+                }
+            )
+        }
         Text(
             text = "Recent Transaction",
             fontWeight = FontWeight.Bold
@@ -131,7 +159,11 @@ fun DashboardScreen() {
         Spacer(modifier = Modifier.height(10.dp))
 
         expenseList.forEach { expense ->
-            ExpenseItem(expense)
+            ExpenseItem(
+                expense = expense,
+                isFavorite = favoriteList.contains(expense),
+                onToggleFavorite = { onToggleFavorite(expense) }
+            )
             Spacer(modifier = Modifier.height(8.dp))
         }
 
@@ -140,7 +172,9 @@ fun DashboardScreen() {
 
 
 @Composable
-fun ExpenseItem(expense: Expense) {
+fun ExpenseItem(expense: Expense,
+                isFavorite: Boolean,
+                onToggleFavorite: () -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
 
     val backgroundColor=
@@ -178,9 +212,13 @@ fun ExpenseItem(expense: Expense) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Button(
-                    onClick = { showDialog = true },
+                    {
+                        showDialog = true
+                    },
                     modifier = Modifier.height(30.dp),
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                    contentPadding = PaddingValues(
+                        horizontal = 8.dp,
+                        vertical = 0.dp)
                 ) {
                     Text(
                         text = "See Details",
@@ -188,11 +226,24 @@ fun ExpenseItem(expense: Expense) {
                     )
                 }
             }
+            Column(horizontalAlignment = Alignment.End) {
+                IconButton(
+                    onClick = { onToggleFavorite()}
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite
+                        else Icons.Outlined.FavoriteBorder, contentDescription = "Favorite",
+                        tint = if (isFavorite) Color.Red else Color.Gray
+                    )
 
-            Text(
-                text="Rp ${expense.amount}",
-                fontWeight=FontWeight.Bold
-            )
+                }
+                Text(
+                    text = "Rp ${expense.amount}",
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+
         }
 
     }
