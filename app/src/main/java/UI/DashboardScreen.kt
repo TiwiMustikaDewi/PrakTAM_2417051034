@@ -29,6 +29,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyRow
+
+
 
 
 @Composable
@@ -47,7 +51,7 @@ fun DashboardScreen(
     val totalWants=expenseList
         .filter {it.category=="Wants"}
         .sumOf {it.amount}
-
+    
     Column(
         modifier=Modifier
             .fillMaxSize()
@@ -65,34 +69,37 @@ fun DashboardScreen(
             fontWeight=FontWeight.Bold
         )
         Spacer(modifier=Modifier.height(10.dp))
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF6C8CF5)
-            )
-        ) {
-
-            Column(
-                modifier = Modifier.padding(16.dp)
+        
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(start = 4.dp)
             ) {
+                item {
+                    BalanceCard(
+                        title = "Current Balance",
+                        amount = 987123,
+                        subtitle = "+ 123.567"
+                    )
+                }
 
-                Text(
-                    text = "Current Balance",
-                    color = Color.White
-                )
+                item {
+                    BalanceCard(
+                        title = "Cash",
+                        amount = 350000,
+                        subtitle = "Wallet"
+                    )
+                }
 
-                Text(
-                    text = "Rp 987123",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+                item {
+                    BalanceCard(
+                        title = "Bank",
+                        amount = 637123,
+                        subtitle = "BCA / Card"
+                    )
+                }
             }
-        }
-        Spacer(modifier=Modifier.height(20.dp))
+        
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Services",
@@ -179,7 +186,7 @@ fun ExpenseItem(expense: Expense,
 
     val backgroundColor=
         if (expense.category == "Needs")
-            Color(0xFFCBD83B).copy(alpha=0.15f)
+            Color(0xFFDBE84D).copy(alpha=0.15f)
         else
             Color(0xFFA88AED).copy(alpha=0.15f)
     Card(
@@ -290,6 +297,50 @@ fun ServiceItem(icon: Int, label: String) {
             text = label,
             fontSize = 12.sp
         )
+    }
+}
+
+@Composable
+fun BalanceCard(
+    title: String,
+    amount: Int,
+    subtitle: String
+){
+    Card(
+        modifier = Modifier
+            .width(260.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF5A78FF)
+        )
+    ){
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ){
+
+            Text(
+                text = title,
+                color = Color.White.copy(alpha = 0.8f),
+                fontSize = 12.sp
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Rp $amount",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = subtitle,
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 12.sp
+            )
+        }
     }
 }
 
