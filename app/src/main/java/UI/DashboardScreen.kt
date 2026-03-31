@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.LazyRow
+import com.example.praktam_2417051034.ui.theme.ExpenseRed
 
 
 
@@ -55,18 +56,19 @@ fun DashboardScreen(
     Column(
         modifier=Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFEEC))
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         Text(
-            text="Hello",
-            color=Color.Gray
+            text = "Hello",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onBackground
         )
+
         Text(
             text="Tiwi Mustika Dewi",
-            fontSize= 20.sp,
-            fontWeight=FontWeight.Bold
+            style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier=Modifier.height(10.dp))
         
@@ -133,11 +135,17 @@ fun DashboardScreen(
             ) {
                 Column {
                     Text("Total Needs", fontWeight=FontWeight.Bold)
-                    Text("Rp $totalNeeds", color=Color(0xFF7EA21C))
+                    Text(
+                        "Rp $totalNeeds",
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
                 Column {
                     Text("Total Wants", fontWeight=FontWeight.Bold)
-                    Text("Rp $totalWants", color=Color(0xFF7A4FD1))
+                    Text(
+                        "Rp $totalWants",
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         }
@@ -149,14 +157,17 @@ fun DashboardScreen(
         ){
             Text(
                 text = "My Favorite",
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleMedium
             )
+
             Text(
                 text = ">",
-                color = Color(0xFF6C8CF5),
-                modifier = Modifier.clickable{onNavigateToFavorite()
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable {
+                    onNavigateToFavorite()
                 }
             )
+
         }
         Text(
             text = "Recent Transaction",
@@ -184,11 +195,13 @@ fun ExpenseItem(expense: Expense,
                 onToggleFavorite: () -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
 
-    val backgroundColor=
+    val backgroundColor =
         if (expense.category == "Needs")
-            Color(0xFFDBE84D).copy(alpha=0.15f)
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
         else
-            Color(0xFFA88AED).copy(alpha=0.15f)
+            ExpenseRed.copy(alpha = 0.1f)
+
+
     Card(
         modifier=Modifier
             .fillMaxWidth()
@@ -229,7 +242,7 @@ fun ExpenseItem(expense: Expense,
                 ) {
                     Text(
                         text = "See Details",
-                        fontSize = 12.sp
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
@@ -240,7 +253,10 @@ fun ExpenseItem(expense: Expense,
                     Icon(
                         imageVector = if (isFavorite) Icons.Filled.Favorite
                         else Icons.Outlined.FavoriteBorder, contentDescription = "Favorite",
-                        tint = if (isFavorite) Color.Red else Color.Gray
+                        tint = if (isFavorite)
+                            ExpenseRed
+                        else
+                            MaterialTheme.colorScheme.onSurface
                     )
 
                 }
@@ -295,7 +311,7 @@ fun ServiceItem(icon: Int, label: String) {
 
         Text(
             text = label,
-            fontSize = 12.sp
+            style = MaterialTheme.typography.bodySmall
         )
     }
 }
@@ -311,7 +327,7 @@ fun BalanceCard(
             .width(260.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF5A78FF)
+            containerColor = MaterialTheme.colorScheme.primary
         )
     ){
         Column(

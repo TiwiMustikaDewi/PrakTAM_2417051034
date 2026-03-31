@@ -4,19 +4,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Text
-import androidx.compose.material3.Card
+import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.background
 
 @Composable
 fun NotificationScreen(){
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
-    ){
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+
         Text(
-            text = "Notifications", fontSize = 22.sp, fontWeight = FontWeight.Bold
+            text = "Notifications",
+            style = MaterialTheme.typography.titleLarge
         )
+
         Spacer(modifier = Modifier.height(16.dp))
         NotificationItem("You spent Rp 25.000 on Makan Gacoan")
         NotificationItem("You spent Rp 15.000 on Transport Ojek")
@@ -26,12 +31,19 @@ fun NotificationScreen(){
 @Composable
 fun NotificationItem(message: String){
     Card(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)
-    ){
+        modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
         Row(modifier = Modifier.padding(16.dp)){
-            Text("🔔")
+            Text("🔔",
+                style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.width(10.dp))
-            Text(message)
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }

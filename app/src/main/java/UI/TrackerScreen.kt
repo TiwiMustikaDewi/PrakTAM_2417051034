@@ -5,18 +5,14 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.draw.clip
 import com.example.praktam_2417051034.model.*
+import com.example.praktam_2417051034.ui.theme.ExpenseRed
 
 @Composable
 fun TrackerScreen(){
@@ -40,6 +36,7 @@ fun TrackerScreen(){
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -47,15 +44,13 @@ fun TrackerScreen(){
         item {
             Text(
                 text = "Expense Tracker",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge
             )
         }
         item {
             Text(
                 text = "Transactions",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                style = MaterialTheme.typography.titleMedium
             )
         }
 
@@ -83,15 +78,15 @@ fun CategoryLabel(category: String) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = if (category == "Needs")
-                Color(0xFFE8F5E9)
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
             else
-                Color(0xFFFFF3E0)
+                ExpenseRed.copy(alpha = 0.1f)
         )
     ) {
         Text(
             text = category,
             modifier = Modifier.padding(12.dp),
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
@@ -104,13 +99,17 @@ fun TimeFilterChip(label: String, isSelected: Boolean, onClick: () -> Unit) {
             containerColor = if (isSelected)
                 MaterialTheme.colorScheme.primary
             else
-                Color.LightGray
+                MaterialTheme.colorScheme.surface
         )
     ) {
         Text(
             text = label,
             modifier = Modifier.padding(12.dp),
-            color = if (isSelected) Color.White else Color.Black
+            color = if (isSelected)
+                MaterialTheme.colorScheme.onPrimary
+            else
+                MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
@@ -121,8 +120,9 @@ fun ExpenseCard(expense: Expense){
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ){
         Row(
             modifier = Modifier.padding(12.dp),
@@ -145,23 +145,21 @@ fun ExpenseCard(expense: Expense){
             ){
                 Text(
                     text = expense.title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    style = MaterialTheme.typography.titleMedium
                 )
-
                 Text(
                     text = expense.subCategory,
-                    fontSize = 12.sp,
-                    color = Color.Gray
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
 
                 Text(
                     text = expense.category,
-                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
                     color = if (expense.category == "Needs")
-                        Color(0xFF4CAF50)
+                        MaterialTheme.colorScheme.primary
                     else
-                        Color(0xFFFF9800)
+                        ExpenseRed
                 )
             }
 
@@ -172,7 +170,7 @@ fun ExpenseCard(expense: Expense){
                 Text(
                     text = "Rp ${expense.amount}",
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 TextButton(onClick = {showDialog = true}) {
