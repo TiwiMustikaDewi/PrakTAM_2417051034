@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.praktam_2417051034.R
-import com.example.praktam_2417051034.model.Expense
+import com.example.praktam_2417051034.data.model.Expense
 import com.example.praktam_2417051034.ui.theme.ExpenseRed
 
 @Composable

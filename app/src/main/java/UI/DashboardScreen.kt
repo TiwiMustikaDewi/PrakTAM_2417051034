@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.praktam_2417051034.R
-import com.example.praktam_2417051034.model.Expense
-import com.example.praktam_2417051034.model.ServiceItem
-import com.example.praktam_2417051034.model.ServiceMenu
+import com.example.praktam_2417051034.data.model.Expense
+import com.example.praktam_2417051034.data.model.ServiceItem
 import com.example.praktam_2417051034.ui.theme.ExpenseRed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

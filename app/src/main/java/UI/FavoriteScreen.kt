@@ -7,8 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.praktam_2417051034.model.Expense
-
+import com.example.praktam_2417051034.data.model.Expense
 @Composable
 fun FavoriteScreen(
     favoriteList: List<Expense>,

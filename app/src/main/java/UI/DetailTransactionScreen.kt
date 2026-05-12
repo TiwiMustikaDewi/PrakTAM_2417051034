@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Alignment
 import coil.compose.AsyncImage
-import com.example.praktam_2417051034.model.Expense
+import com.example.praktam_2417051034.data.model.Expense
 import com.example.praktam_2417051034.ui.theme.ExpenseRed
 
 @Composable
