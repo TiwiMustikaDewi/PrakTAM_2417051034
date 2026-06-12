@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PrakTAM_2417051034</string>
+    <!-- Ganti value di bawah ini dengan Web Client ID dari Firebase Console / Google Cloud Console -->
+    <string name="default_web_client_id">30611744554-l7e5rsvp1gkej9fq7cct9ffh1rbsqvjo.apps.googleusercontent.com</string>
 </resources>
